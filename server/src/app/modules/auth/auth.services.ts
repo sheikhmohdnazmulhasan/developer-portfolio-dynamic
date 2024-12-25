@@ -1,10 +1,11 @@
 import { StatusCodes } from "http-status-codes";
-import AppError from "../../errors/app-error";
-import config from "../config";
-import { IServiceResponse } from "../interfaces/service-response.type";
+
 import { IUser } from "./auth.interfaces";
 import User from "./auth.models";
 import jwt, { Secret } from "jsonwebtoken";
+import { IServiceResponse } from "../../interfaces/service-response.type";
+import AppError from "../../../errors/app-error";
+import config from "../../config";
 
 async function loginIntoDb(payload: IUser): Promise<IServiceResponse> {
   const user = await User.findOne({
@@ -16,8 +17,6 @@ async function loginIntoDb(payload: IUser): Promise<IServiceResponse> {
   }
 
   const isCorrectPassword = await user.comparePassword(payload.password);
-
-  console.log({ isCorrectPassword });
 
   if (!isCorrectPassword) {
     throw new AppError(401, "Wrong Password");
