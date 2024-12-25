@@ -4,6 +4,17 @@ import { IServiceResponse } from "../../interfaces/service-response.type";
 import { IAbout } from "./about.interfaces";
 import About from "./about.models";
 
+async function getAboutFromDb(): Promise<IServiceResponse> {
+  const result = await About.findOne();
+
+  return {
+    status: StatusCodes.OK,
+    success: true,
+    message: "About successfully retrieved",
+    data: result,
+  };
+}
+
 async function createOrUpdateAboutIntoDb(
   payload: Partial<IAbout>
 ): Promise<IServiceResponse> {
@@ -36,4 +47,5 @@ async function createOrUpdateAboutIntoDb(
 
 export const AboutServices = {
   createOrUpdateAboutIntoDb,
+  getAboutFromDb,
 };
