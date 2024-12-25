@@ -6,6 +6,7 @@ import { Server } from "http";
 import mongoose from "mongoose";
 import config from "./config";
 import globalErrorHandler from "./middlewares/global-error-handler";
+import { AuthRoutes } from "./modules/auth.routes";
 
 const app: Application = express();
 
@@ -20,7 +21,7 @@ app.get("/", (_, res: Response) => {
 });
 
 // application routes
-// app.use("/api/v1", applicationRoutes);
+app.use("/api/auth", AuthRoutes);
 
 // error handler
 app.use(globalErrorHandler);

@@ -9,7 +9,7 @@ function globalErrorHandler(
   console.log(error);
   res.status(error.status || 500).json({
     success: false,
-    statusCode: error.status || 500,
+    status: error.status || 500,
     message: error.message || "Something went wrong",
     error,
   });

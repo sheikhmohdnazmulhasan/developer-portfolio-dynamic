@@ -1,8 +1,8 @@
 class AppError extends Error {
-  statusCode: number;
+  status: number;
   constructor(statusCode: number, message: string | undefined, stack = "") {
     super(message);
-    this.statusCode = statusCode;
+    this.status = statusCode;
     if (stack) {
       this.stack = stack;
     } else {
