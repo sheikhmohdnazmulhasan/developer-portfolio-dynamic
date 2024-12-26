@@ -13,4 +13,11 @@ router.post(
   ProjectControllers.createNewProject
 );
 
+router.patch(
+  "/:_id",
+  Auth(),
+  ValidationRequest(ProjectValidations.updateProjectValidationSchema),
+  ProjectControllers.updateProject
+);
+
 export const ProjectRoutes = router;
