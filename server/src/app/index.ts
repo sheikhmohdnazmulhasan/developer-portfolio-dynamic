@@ -10,6 +10,7 @@ import { AboutRoutes } from "./modules/about/about.routes";
 import { AuthRoutes } from "./modules/auth/auth.routes";
 import { ProjectRoutes } from "./modules/projects/project.routes";
 import { articleRoutes } from "./modules/articles/article.routes";
+import { sendContactEmail } from "./emails";
 
 const app: Application = express();
 
@@ -28,6 +29,7 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/about", AboutRoutes);
 app.use("/api/projects", ProjectRoutes);
 app.use("/api/articles", articleRoutes);
+app.post("/api/send-email", sendContactEmail);
 
 // error handler
 app.use(globalErrorHandler);
