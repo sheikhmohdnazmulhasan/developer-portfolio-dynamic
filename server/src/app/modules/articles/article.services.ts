@@ -6,6 +6,35 @@ import Article from "./article.model";
 import isValidValidObjectId from "../../../utils/check-valid-objectId";
 import { isValidObjectId } from "mongoose";
 
+async function retrieveAllArticlesFromDb(): Promise<IServiceResponse> {
+  const result = await Article.find();
+
+  return {
+    status: StatusCodes.OK,
+    success: true,
+    message: "Articles successfully retrieved",
+    data: result,
+  };
+}
+
+async function retrieveSingleArticleFromDb(
+  _id: string
+): Promise<IServiceResponse> {
+  if (!isValidObjectId(_id))
+    throw new AppError(400, "Invalid project id format");
+
+  const result = await Article.findById(_id);
+
+  if (!result) throw new AppError(404, "Article not found with that id");
+
+  return {
+    success: true,
+    status: StatusCodes.OK,
+    message: "Article successfully retrieved",
+    data: result,
+  };
+}
+
 async function createNewArticleIntoDb(
   payload: IArticle
 ): Promise<IServiceResponse> {
@@ -59,4 +88,6 @@ export const ArticleServices = {
   createNewArticleIntoDb,
   updateArticleIntoDb,
   deleteArticleFromDb,
+  retrieveAllArticlesFromDb,
+  retrieveSingleArticleFromDb,
 };

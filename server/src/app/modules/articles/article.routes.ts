@@ -6,6 +6,9 @@ import { ArticleValidations } from "./article.validations";
 
 const router: Router = Router();
 
+router.get("/", ArticleControllers.retrieveAllArticles);
+router.get("/:_id", ArticleControllers.retrieveSingleArticle);
+
 router.post(
   "/",
   Auth(),

@@ -2,6 +2,26 @@ import { Request, Response } from "express";
 import catchAsync from "../../../utils/catch-async";
 import { ArticleServices } from "./article.services";
 
+const retrieveAllArticles = catchAsync(async function (
+  req: Request,
+  res: Response
+) {
+  const result = await ArticleServices.retrieveAllArticlesFromDb();
+
+  res.status(result.status).json(result);
+});
+
+const retrieveSingleArticle = catchAsync(async function (
+  req: Request,
+  res: Response
+) {
+  const result = await ArticleServices.retrieveSingleArticleFromDb(
+    req.params._id
+  );
+
+  res.status(result.status).json(result);
+});
+
 const createNewArticle = catchAsync(async function (
   req: Request,
   res: Response
@@ -30,4 +50,6 @@ export const ArticleControllers = {
   createNewArticle,
   updateArticle,
   deleteArticle,
+  retrieveAllArticles,
+  retrieveSingleArticle,
 };
