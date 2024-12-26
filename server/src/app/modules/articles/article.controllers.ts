@@ -20,7 +20,14 @@ const updateArticle = catchAsync(async function (req: Request, res: Response) {
   res.status(result.status).json(result);
 });
 
+const deleteArticle = catchAsync(async function (req: Request, res: Response) {
+  const result = await ArticleServices.deleteArticleFromDb(req.params._id);
+
+  res.status(result.status).json(result);
+});
+
 export const ArticleControllers = {
   createNewArticle,
   updateArticle,
+  deleteArticle,
 };

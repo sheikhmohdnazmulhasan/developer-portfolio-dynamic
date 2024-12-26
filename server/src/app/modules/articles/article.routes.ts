@@ -20,4 +20,6 @@ router.patch(
   ArticleControllers.updateArticle
 );
 
+router.delete("/:_id", Auth(), ArticleControllers.deleteArticle);
+
 export const articleRoutes = router;
