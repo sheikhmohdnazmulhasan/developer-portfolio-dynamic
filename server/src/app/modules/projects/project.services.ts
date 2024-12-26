@@ -5,6 +5,24 @@ import { IProject } from "./project.interfaces";
 import Project from "./project.model";
 import { isValidObjectId } from "mongoose";
 
+async function retrieveSingleProjectFromDb(
+  _id: string
+): Promise<IServiceResponse> {
+  if (!isValidObjectId(_id))
+    throw new AppError(400, "Invalid project id format");
+
+  const result = await Project.findById(_id);
+
+  if (!result) throw new AppError(404, "Project not found with that id");
+
+  return {
+    success: true,
+    status: StatusCodes.OK,
+    message: "Project successfully retrieved",
+    data: result,
+  };
+}
+
 async function createNewProjectIntoDb(
   payload: IProject
 ): Promise<IServiceResponse> {
@@ -58,4 +76,5 @@ export const ProjectServices = {
   createNewProjectIntoDb,
   updateProjectIntoDb,
   deleteProjectFromDb,
+  retrieveSingleProjectFromDb,
 };

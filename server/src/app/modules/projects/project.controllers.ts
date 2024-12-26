@@ -2,6 +2,17 @@ import { Request, Response } from "express";
 import catchAsync from "../../../utils/catch-async";
 import { ProjectServices } from "./project.services";
 
+const retrieveSingleProjectFromDb = catchAsync(async function (
+  req: Request,
+  res: Response
+) {
+  const result = await ProjectServices.retrieveSingleProjectFromDb(
+    req.params._id
+  );
+
+  res.status(result.status).json(result);
+});
+
 const createNewProject = catchAsync(async function (
   req: Request,
   res: Response
@@ -30,4 +41,5 @@ export const ProjectControllers = {
   createNewProject,
   updateProject,
   deleteProject,
+  retrieveSingleProjectFromDb,
 };

@@ -6,6 +6,8 @@ import { ProjectValidations } from "./project.validations";
 
 const router: Router = Router();
 
+router.get("/:_id", ProjectControllers.retrieveSingleProjectFromDb);
+
 router.post(
   "/",
   Auth(),
