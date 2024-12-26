@@ -11,6 +11,8 @@ import { AuthRoutes } from "./modules/auth/auth.routes";
 import { ProjectRoutes } from "./modules/projects/project.routes";
 import { articleRoutes } from "./modules/articles/article.routes";
 import { sendContactEmail } from "./emails";
+import ValidationRequest from "./middlewares/zod-validation";
+import { contactValidationSchema } from "./emails/email-validation";
 
 const app: Application = express();
 
@@ -29,7 +31,11 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/about", AboutRoutes);
 app.use("/api/projects", ProjectRoutes);
 app.use("/api/articles", articleRoutes);
-app.post("/api/send-email", sendContactEmail);
+app.post(
+  "/api/send-email",
+  ValidationRequest(contactValidationSchema),
+  sendContactEmail
+);
 
 // error handler
 app.use(globalErrorHandler);

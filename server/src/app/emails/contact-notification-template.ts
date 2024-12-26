@@ -4,7 +4,7 @@ interface IProps {
   message: string;
 }
 
-function contactNotificationTemplate(payload: IProps) {
+export default function contactNotificationTemplate(payload: IProps) {
   return `
     <!DOCTYPE html>
 <html lang="en">
