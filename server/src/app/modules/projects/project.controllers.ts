@@ -2,7 +2,16 @@ import { Request, Response } from "express";
 import catchAsync from "../../../utils/catch-async";
 import { ProjectServices } from "./project.services";
 
-const retrieveSingleProjectFromDb = catchAsync(async function (
+const retrieveAllProjects = catchAsync(async function (
+  req: Request,
+  res: Response
+) {
+  const result = await ProjectServices.retrieveAllProjectsFromDb();
+
+  res.status(result.status).json(result);
+});
+
+const retrieveSingleProject = catchAsync(async function (
   req: Request,
   res: Response
 ) {
@@ -41,5 +50,6 @@ export const ProjectControllers = {
   createNewProject,
   updateProject,
   deleteProject,
-  retrieveSingleProjectFromDb,
+  retrieveSingleProject,
+  retrieveAllProjects,
 };

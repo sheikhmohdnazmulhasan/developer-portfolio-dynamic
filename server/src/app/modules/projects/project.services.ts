@@ -5,6 +5,17 @@ import { IProject } from "./project.interfaces";
 import Project from "./project.model";
 import { isValidObjectId } from "mongoose";
 
+async function retrieveAllProjectsFromDb(): Promise<IServiceResponse> {
+  const result = await Project.find();
+
+  return {
+    status: StatusCodes.OK,
+    success: true,
+    message: "Project successfully retrieved",
+    data: result,
+  };
+}
+
 async function retrieveSingleProjectFromDb(
   _id: string
 ): Promise<IServiceResponse> {
@@ -77,4 +88,5 @@ export const ProjectServices = {
   updateProjectIntoDb,
   deleteProjectFromDb,
   retrieveSingleProjectFromDb,
+  retrieveAllProjectsFromDb,
 };
