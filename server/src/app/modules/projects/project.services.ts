@@ -37,7 +37,25 @@ async function updateProjectIntoDb(
   };
 }
 
+async function deleteProjectFromDb(_id: string): Promise<IServiceResponse> {
+  if (!isValidObjectId(_id))
+    throw new AppError(400, "Invalid projectId format");
+
+  const isExist = await Project.findById(_id).lean();
+  if (!isExist) throw new AppError(404, "Project not found with that id");
+
+  const result = await Project.findByIdAndDelete(_id);
+
+  return {
+    status: StatusCodes.OK,
+    success: true,
+    message: "Project successfully deleted",
+    data: result,
+  };
+}
+
 export const ProjectServices = {
   createNewProjectIntoDb,
   updateProjectIntoDb,
+  deleteProjectFromDb,
 };
