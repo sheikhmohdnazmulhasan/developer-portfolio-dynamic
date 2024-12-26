@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createArticleValidationSchema = z.object({
+const createArticleValidationSchema = z.object({
   body: z.object({
     title: z.string().min(1, "Title is required"),
     image: z.string().url("Image must be a valid URL"),
@@ -9,6 +9,16 @@ export const createArticleValidationSchema = z.object({
   }),
 });
 
+const updateArticleValidationSchema = z.object({
+  body: z.object({
+    title: z.string().min(1, "Title is required").optional(),
+    image: z.string().url("Image must be a valid URL").optional(),
+    tags: z.array(z.string().min(1, "Tag cannot be empty")).optional(),
+    description: z.string().min(1, "Description is required").optional(),
+  }),
+});
+
 export const ArticleValidations = {
   createArticleValidationSchema,
+  updateArticleValidationSchema,
 };

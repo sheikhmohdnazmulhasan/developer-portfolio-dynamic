@@ -11,6 +11,16 @@ const createNewArticle = catchAsync(async function (
   res.status(result.status).json(result);
 });
 
+const updateArticle = catchAsync(async function (req: Request, res: Response) {
+  const result = await ArticleServices.updateArticleIntoDb(
+    req.params._id,
+    req.body
+  );
+
+  res.status(result.status).json(result);
+});
+
 export const ArticleControllers = {
   createNewArticle,
+  updateArticle,
 };

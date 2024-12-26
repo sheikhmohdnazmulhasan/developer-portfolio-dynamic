@@ -13,4 +13,11 @@ router.post(
   ArticleControllers.createNewArticle
 );
 
+router.patch(
+  "/:_id",
+  Auth(),
+  ValidationRequest(ArticleValidations.updateArticleValidationSchema),
+  ArticleControllers.updateArticle
+);
+
 export const articleRoutes = router;
