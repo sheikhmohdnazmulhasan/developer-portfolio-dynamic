@@ -1,28 +1,37 @@
 import React from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useForm } from "antd/lib/form/Form";
 import { ILoginFormData } from "../../interfaces/login-form-data.type";
-
+import { useAppDispatch } from "../../redux/hooks";
+import { useLoginUserMutation } from "../../redux/features/auth/auth.api";
+import { setUser } from "../../redux/features/auth/auth.slice";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 const Login: React.FC = () => {
   const [form] = useForm<ILoginFormData>();
+  const [loginUser] = useLoginUserMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onFinish = async (values: ILoginFormData) => {
     try {
-      // Validate the form data using Zod
+      const response = await loginUser(values).unwrap();
 
-      // If validation passes, you can proceed with login logic
-      console.log("Login successful:", values);
-      message.success("Login successful!");
-
-      // Here you would typically make an API call to authenticate the user
-      // For example:
-      // await loginUser(values);
+      const authInfo = {
+        token: response.token,
+        user: {
+          _id: response.user._id,
+          name: response.user.name,
+          email: response.user.email,
+        },
+      };
+      dispatch(setUser(authInfo));
+      toast.success("Login success");
+      navigate("/");
     } catch (error) {
       if (error instanceof Error) {
-        message.error(error.message);
-      } else {
-        message.error("An unknown error occurred");
+        toast.error(error.message);
       }
     }
   };
