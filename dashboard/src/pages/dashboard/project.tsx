@@ -1,7 +1,6 @@
 import { Table, Button, Space, Popconfirm, Tag, FloatButton } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { useDeleteArticleMutation } from "../../redux/features/articles/article.api";
 import ErrorElement from "../../components/error";
 import Loading from "../../components/loading";
 import dateFormatter from "../../utils/date-formatter";
@@ -13,6 +12,7 @@ import {
   useDeleteProjectMutation,
   useFetchAllProjectsQuery,
 } from "../../redux/features/projects/projects.api";
+import AddProjectDrawer from "../../components/dashboard/add-new-project";
 
 export interface BlogPost {
   key: number;
@@ -34,10 +34,10 @@ export default function ProjectManagement() {
 
   const [deleteProject] = useDeleteProjectMutation();
 
-  const [openAddNewArticleDrawer, setOpenAddNewArticleDrawer] =
+  const [openAddNewProjectDrawer, setOpenAddNewProjectDrawer] =
     useState<boolean>(false);
 
-  const [clickedForEdit, setClickedForEdit] = useState<BlogPost | null>(null);
+  const [clickedForEdit, setClickedForEdit] = useState<IProject | null>(null);
 
   const handleDelete = async (_id: string) => {
     try {
@@ -131,15 +131,15 @@ export default function ProjectManagement() {
         />
       </div>
       <FloatButton
-        onClick={() => setOpenAddNewArticleDrawer(true)}
+        onClick={() => setOpenAddNewProjectDrawer(true)}
         icon={<Plus />}
         tooltip={<div>Add new Projects</div>}
       />
-      {/* <AddArticleDrawer
-        open={openAddNewArticleDrawer}
-        setOpen={setOpenAddNewArticleDrawer}
+      <AddProjectDrawer
+        open={openAddNewProjectDrawer}
+        setOpen={setOpenAddNewProjectDrawer}
       />
-      {clickedForEdit && (
+      {/* {clickedForEdit && (
         <EditArticleDrawer setData={setClickedForEdit} data={clickedForEdit} />
       )} */}
     </>

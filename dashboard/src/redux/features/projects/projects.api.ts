@@ -17,6 +17,15 @@ const projectApi = baseApi.injectEndpoints({
       providesTags: ["projects"],
     }),
 
+    createNewProject: builder.mutation({
+      query: (payload: Record<string, unknown>) => ({
+        url: "/projects",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["projects"],
+    }),
+
     deleteProject: builder.mutation({
       query: (args: { _id: string }) => ({
         url: `/projects/${args._id}`,
@@ -27,5 +36,8 @@ const projectApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useFetchAllProjectsQuery, useDeleteProjectMutation } =
-  projectApi;
+export const {
+  useFetchAllProjectsQuery,
+  useDeleteProjectMutation,
+  useCreateNewProjectMutation,
+} = projectApi;
