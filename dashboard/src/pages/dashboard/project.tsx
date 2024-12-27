@@ -1,18 +1,18 @@
 import { Table, Button, Space, Popconfirm, Tag, FloatButton } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import {
-  useDeleteArticleMutation,
-  useGetAllArticlesQuery,
-} from "../../redux/features/articles/article.api";
+import { useDeleteArticleMutation } from "../../redux/features/articles/article.api";
 import ErrorElement from "../../components/error";
 import Loading from "../../components/loading";
 import dateFormatter from "../../utils/date-formatter";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import AddArticleDrawer from "../../components/dashboard/add-new-article";
-import EditArticleDrawer from "../../components/dashboard/edit-article";
+import { IProject } from "../../interfaces/api.res.projects.type";
+import {
+  useDeleteProjectMutation,
+  useFetchAllProjectsQuery,
+} from "../../redux/features/projects/projects.api";
 
 export interface BlogPost {
   key: number;
@@ -25,13 +25,15 @@ export interface BlogPost {
   description: string;
 }
 
-export default function ArticleManagement() {
+export default function ProjectManagement() {
   const {
-    data: articles,
+    data: projects,
     isLoading,
     isError,
-  } = useGetAllArticlesQuery(undefined);
-  const [deleteArticle] = useDeleteArticleMutation();
+  } = useFetchAllProjectsQuery(undefined);
+
+  const [deleteProject] = useDeleteProjectMutation();
+
   const [openAddNewArticleDrawer, setOpenAddNewArticleDrawer] =
     useState<boolean>(false);
 
@@ -39,9 +41,9 @@ export default function ArticleManagement() {
 
   const handleDelete = async (_id: string) => {
     try {
-      const response = await deleteArticle({ _id }).unwrap();
+      const response = await deleteProject({ _id }).unwrap();
       if (response.success) {
-        toast.success("Article successfully deleted");
+        toast.success("Project successfully deleted");
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -50,12 +52,12 @@ export default function ArticleManagement() {
     }
   };
 
-  const columns: ColumnsType<BlogPost> = [
+  const columns: ColumnsType<IProject> = [
     {
       title: "Image",
       dataIndex: "image",
       key: "image",
-      render: (imageUrl: string, record: BlogPost) => (
+      render: (imageUrl: string, record: IProject) => (
         <img
           src={imageUrl}
           alt={record.title}
@@ -71,8 +73,8 @@ export default function ArticleManagement() {
       render: (text: string) => <strong>{text.slice(0, 45)} ...</strong>,
     },
     {
-      title: "Tags",
-      dataIndex: "tags",
+      title: "Technologies",
+      dataIndex: "technologies",
       key: "tags",
       render: (tags) =>
         tags.map((tag: string) => <Tag color="processing">{tag}</Tag>),
@@ -118,11 +120,11 @@ export default function ArticleManagement() {
         <h1
           style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}
         >
-          Manage Article
+          Manage Projects
         </h1>
         <Table
           columns={columns}
-          dataSource={articles}
+          dataSource={projects}
           rowKey="key"
           pagination={{ pageSize: 5 }}
           scroll={{ x: true }}
@@ -131,15 +133,15 @@ export default function ArticleManagement() {
       <FloatButton
         onClick={() => setOpenAddNewArticleDrawer(true)}
         icon={<Plus />}
-        tooltip={<div>Publish new article</div>}
+        tooltip={<div>Add new Projects</div>}
       />
-      <AddArticleDrawer
+      {/* <AddArticleDrawer
         open={openAddNewArticleDrawer}
         setOpen={setOpenAddNewArticleDrawer}
       />
       {clickedForEdit && (
         <EditArticleDrawer setData={setClickedForEdit} data={clickedForEdit} />
-      )}
+      )} */}
     </>
   );
 }

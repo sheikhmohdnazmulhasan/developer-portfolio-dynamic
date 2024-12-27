@@ -5,6 +5,7 @@ import AntiLoginProtection from "../middleware/anti-login-protection";
 import DashboardLayout from "../pages/dashboard";
 import About from "../pages/dashboard/about";
 import ArticleManagement from "../pages/dashboard/article";
+import ProjectManagement from "../pages/dashboard/project";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/article",
         element: <ArticleManagement />,
+      },
+      {
+        path: "/projects",
+        element: <ProjectManagement />,
       },
     ],
   },
