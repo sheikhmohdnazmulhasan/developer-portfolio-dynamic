@@ -5,6 +5,7 @@ import { articleTags } from "../../constants";
 import { toast } from "sonner";
 import { isValidUrl } from "../../utils/url-validation";
 import { BlogPost } from "../../pages/dashboard/article";
+import { useUpdateArticleMutation } from "../../redux/features/articles/article.api";
 
 export interface IArticle {
   title: string;
@@ -14,7 +15,7 @@ export interface IArticle {
 }
 
 interface IAddArticleDrawerProps {
-  data: IArticle | null;
+  data: BlogPost | null;
   setData: Dispatch<SetStateAction<null | BlogPost>>;
 }
 
@@ -30,6 +31,7 @@ const EditArticleDrawer: React.FC<IAddArticleDrawerProps> = ({
 }) => {
   const [form] = Form.useForm<IArticleForm>();
   const [richText, setRichText] = useState<string>("");
+  const [updateArticle] = useUpdateArticleMutation();
 
   useEffect(() => {
     if (data) {
@@ -54,9 +56,21 @@ const EditArticleDrawer: React.FC<IAddArticleDrawerProps> = ({
         description: richText,
       };
 
-      console.log({ articleData });
+      try {
+        const response = await updateArticle({
+          _id: data!._id as string,
+          data: articleData,
+        }).unwrap();
 
-      // Submit articleData to the backend or handle as needed
+        if (response.success) {
+          toast.success("Article successfully updated");
+          setData(null);
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+      }
     } catch (error) {
       console.error("Validation failed:", error);
     }

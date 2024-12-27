@@ -1,12 +1,4 @@
-import {
-  Table,
-  Button,
-  Space,
-  Popconfirm,
-  message,
-  Tag,
-  FloatButton,
-} from "antd";
+import { Table, Button, Space, Popconfirm, Tag, FloatButton } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import {
@@ -20,9 +12,7 @@ import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import AddArticleDrawer from "../../components/dashboard/add-new-article";
-import EditArticleDrawer, {
-  IArticle,
-} from "../../components/dashboard/edit-article";
+import EditArticleDrawer from "../../components/dashboard/edit-article";
 
 export interface BlogPost {
   key: number;
@@ -46,12 +36,6 @@ export default function ArticleManagement() {
     useState<boolean>(false);
 
   const [clickedForEdit, setClickedForEdit] = useState<BlogPost | null>(null);
-
-  const handleEdit = (key: number) => {
-    // Implement edit functionality
-    console.log(`Editing post with key: ${key}`);
-    message.info(`Editing post with key: ${key}`);
-  };
 
   const handleDelete = async (_id: string) => {
     try {
