@@ -1,0 +1,17 @@
+export const articleTags = [
+  { value: "software-engineering", label: "Software Engineering" },
+  { value: "programming-languages", label: "Programming Languages" },
+  { value: "web-development", label: "Web Development" },
+  { value: "machine-learning", label: "Machine Learning" },
+  { value: "devops", label: "DevOps" },
+  { value: "data-structures", label: "Data Structures" },
+  { value: "algorithms", label: "Algorithms" },
+  { value: "system-design", label: "System Design" },
+  { value: "testing", label: "Testing & QA" },
+  { value: "cloud-computing", label: "Cloud Computing" },
+  { value: "software-testing", label: "Software Testing" },
+  { value: "api-development", label: "API Development" },
+  { value: "version-control", label: "Version Control" },
+  { value: "ci-cd", label: "CI/CD Pipelines" },
+  { value: "design-patterns", label: "Design Patterns" },
+];

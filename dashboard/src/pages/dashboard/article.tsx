@@ -1,4 +1,12 @@
-import { Table, Button, Space, Popconfirm, message, Tag } from "antd";
+import {
+  Table,
+  Button,
+  Space,
+  Popconfirm,
+  message,
+  Tag,
+  FloatButton,
+} from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import {
@@ -9,6 +17,9 @@ import ErrorElement from "../../components/error";
 import Loading from "../../components/loading";
 import dateFormatter from "../../utils/date-formatter";
 import { toast } from "sonner";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import AddArticleDrawer from "../../components/dashboard/add-new-article";
 
 interface BlogPost {
   key: number;
@@ -27,6 +38,8 @@ export default function ArticleManagement() {
     isError,
   } = useGetAllArticlesQuery(undefined);
   const [deleteArticle] = useDeleteArticleMutation();
+  const [openAddNewArticleDrawer, setOpenAddNewArticleDrawer] =
+    useState<boolean>(false);
 
   const handleEdit = (key: number) => {
     // Implement edit functionality
@@ -125,6 +138,15 @@ export default function ArticleManagement() {
           scroll={{ x: true }}
         />
       </div>
+      <FloatButton
+        onClick={() => setOpenAddNewArticleDrawer(true)}
+        icon={<Plus />}
+        tooltip={<div>Create new category</div>}
+      />
+      <AddArticleDrawer
+        open={openAddNewArticleDrawer}
+        setOpen={setOpenAddNewArticleDrawer}
+      />
     </>
   );
 }
