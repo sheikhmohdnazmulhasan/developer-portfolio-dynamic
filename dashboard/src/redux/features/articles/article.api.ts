@@ -12,6 +12,7 @@ const articleApi = baseApi.injectEndpoints({
         if (!response || !response.data) {
           throw new Error("Invalid response structure");
         }
+        return response.data;
       },
       providesTags: ["articles"],
     }),

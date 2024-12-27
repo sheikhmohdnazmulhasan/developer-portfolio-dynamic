@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Result } from "antd";
+import { Form, Input, Button } from "antd";
 import RichTextEditor from "../../utils/rich-text-editor";
 import {
   useEditAboutMutation,
@@ -7,6 +7,7 @@ import {
 } from "../../redux/features/about/about.api";
 import Loading from "../../components/loading";
 import { toast } from "sonner";
+import ErrorElement from "../../components/error";
 
 interface ProfileFormValues {
   name: string;
@@ -50,20 +51,7 @@ const About: React.FC = () => {
     }
   };
 
-  if (isError) {
-    return (
-      <Result
-        status="500"
-        title="500"
-        subTitle="Sorry, something went wrong."
-        extra={
-          <Button onClick={() => window.location.reload()} type="primary">
-            Reload
-          </Button>
-        }
-      />
-    );
-  }
+  if (isError) return <ErrorElement />;
 
   return (
     <>

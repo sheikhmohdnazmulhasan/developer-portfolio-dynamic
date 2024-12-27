@@ -1,42 +1,27 @@
 import { useState } from "react";
-import { Table, Button, Space, Popconfirm, message } from "antd";
+import { Table, Button, Space, Popconfirm, message, Tag } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
+import { useGetAllArticlesQuery } from "../../redux/features/articles/article.api";
+import ErrorElement from "../../components/error";
+import Loading from "../../components/loading";
+import dateFormatter from "../../utils/date-formatter";
 
 interface BlogPost {
   key: number;
   title: string;
-  excerpt: string;
-  date: string;
+  tags: string[];
+  createdAt: string;
   imageUrl: string;
+  image: string;
 }
 
-const initialBlogPosts: BlogPost[] = [
-  {
-    key: 1,
-    title: "Getting Started with React",
-    excerpt: "Learn the basics of React and start building your first app.",
-    date: "2023-04-15",
-    imageUrl: "/placeholder.svg?height=80&width=80",
-  },
-  {
-    key: 2,
-    title: "Advanced TypeScript Techniques",
-    excerpt: "Dive deep into TypeScript and learn advanced concepts.",
-    date: "2023-04-20",
-    imageUrl: "/placeholder.svg?height=80&width=80",
-  },
-  {
-    key: 3,
-    title: "Mastering CSS Grid",
-    excerpt: "Unlock the power of CSS Grid for complex layouts.",
-    date: "2023-04-25",
-    imageUrl: "/placeholder.svg?height=80&width=80",
-  },
-];
-
 export default function ArticleManagement() {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(initialBlogPosts);
+  const {
+    data: articles,
+    isLoading,
+    isError,
+  } = useGetAllArticlesQuery(undefined);
 
   const handleEdit = (key: number) => {
     // Implement edit functionality
@@ -45,14 +30,13 @@ export default function ArticleManagement() {
   };
 
   const handleDelete = (key: number) => {
-    setBlogPosts(blogPosts.filter((post) => post.key !== key));
     message.success("Post deleted successfully");
   };
 
   const columns: ColumnsType<BlogPost> = [
     {
       title: "Image",
-      dataIndex: "imageUrl",
+      dataIndex: "image",
       key: "image",
       render: (imageUrl: string, record: BlogPost) => (
         <img
@@ -67,19 +51,20 @@ export default function ArticleManagement() {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      render: (text: string) => <strong>{text}</strong>,
+      render: (text: string) => <strong>{text.slice(0, 45)} ...</strong>,
     },
     {
-      title: "Excerpt",
-      dataIndex: "excerpt",
-      key: "excerpt",
-      responsive: ["md"],
+      title: "Tags",
+      dataIndex: "tags",
+      key: "tags",
+      render: (tags) =>
+        tags.map((tag: string) => <Tag color="processing">{tag}</Tag>),
     },
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
-      responsive: ["sm"],
+      dataIndex: "createAt",
+      key: "createdAt",
+      render: (_, record) => <p>{dateFormatter(record.createdAt)}</p>,
     },
     {
       title: "Actions",
@@ -107,20 +92,25 @@ export default function ArticleManagement() {
     },
   ];
 
+  if (isError) return <ErrorElement />;
+
   return (
-    <div style={{ padding: "24px" }}>
-      <h1
-        style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}
-      >
-        Manage Article
-      </h1>
-      <Table
-        columns={columns}
-        dataSource={blogPosts}
-        rowKey="key"
-        pagination={{ pageSize: 5 }}
-        scroll={{ x: true }}
-      />
-    </div>
+    <>
+      {isLoading && <Loading />}
+      <div style={{ padding: "24px" }}>
+        <h1
+          style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}
+        >
+          Manage Article
+        </h1>
+        <Table
+          columns={columns}
+          dataSource={articles}
+          rowKey="key"
+          pagination={{ pageSize: 5 }}
+          scroll={{ x: true }}
+        />
+      </div>
+    </>
   );
 }
