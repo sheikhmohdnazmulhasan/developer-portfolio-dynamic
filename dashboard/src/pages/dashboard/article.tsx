@@ -20,8 +20,11 @@ import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import AddArticleDrawer from "../../components/dashboard/add-new-article";
+import EditArticleDrawer, {
+  IArticle,
+} from "../../components/dashboard/edit-article";
 
-interface BlogPost {
+export interface BlogPost {
   key: number;
   title: string;
   tags: string[];
@@ -29,6 +32,7 @@ interface BlogPost {
   imageUrl: string;
   image: string;
   _id: string;
+  description: string;
 }
 
 export default function ArticleManagement() {
@@ -40,6 +44,8 @@ export default function ArticleManagement() {
   const [deleteArticle] = useDeleteArticleMutation();
   const [openAddNewArticleDrawer, setOpenAddNewArticleDrawer] =
     useState<boolean>(false);
+
+  const [clickedForEdit, setClickedForEdit] = useState<BlogPost | null>(null);
 
   const handleEdit = (key: number) => {
     // Implement edit functionality
@@ -100,7 +106,7 @@ export default function ArticleManagement() {
         <Space size="middle">
           <Button
             icon={<EditOutlined />}
-            onClick={() => handleEdit(record.key)}
+            onClick={() => setClickedForEdit(record)}
           >
             Edit
           </Button>
@@ -147,6 +153,9 @@ export default function ArticleManagement() {
         open={openAddNewArticleDrawer}
         setOpen={setOpenAddNewArticleDrawer}
       />
+      {clickedForEdit && (
+        <EditArticleDrawer setData={setClickedForEdit} data={clickedForEdit} />
+      )}
     </>
   );
 }
