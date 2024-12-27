@@ -1,11 +1,14 @@
-import { useState } from "react";
 import { Table, Button, Space, Popconfirm, message, Tag } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { useGetAllArticlesQuery } from "../../redux/features/articles/article.api";
+import {
+  useDeleteArticleMutation,
+  useGetAllArticlesQuery,
+} from "../../redux/features/articles/article.api";
 import ErrorElement from "../../components/error";
 import Loading from "../../components/loading";
 import dateFormatter from "../../utils/date-formatter";
+import { toast } from "sonner";
 
 interface BlogPost {
   key: number;
@@ -14,6 +17,7 @@ interface BlogPost {
   createdAt: string;
   imageUrl: string;
   image: string;
+  _id: string;
 }
 
 export default function ArticleManagement() {
@@ -22,6 +26,7 @@ export default function ArticleManagement() {
     isLoading,
     isError,
   } = useGetAllArticlesQuery(undefined);
+  const [deleteArticle] = useDeleteArticleMutation();
 
   const handleEdit = (key: number) => {
     // Implement edit functionality
@@ -29,8 +34,17 @@ export default function ArticleManagement() {
     message.info(`Editing post with key: ${key}`);
   };
 
-  const handleDelete = (key: number) => {
-    message.success("Post deleted successfully");
+  const handleDelete = async (_id: string) => {
+    try {
+      const response = await deleteArticle({ _id }).unwrap();
+      if (response.success) {
+        toast.success("Article successfully deleted");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
   };
 
   const columns: ColumnsType<BlogPost> = [
@@ -79,7 +93,7 @@ export default function ArticleManagement() {
           </Button>
           <Popconfirm
             title="Are you sure you want to delete this post?"
-            onConfirm={() => handleDelete(record.key)}
+            onConfirm={() => handleDelete(record._id)}
             okText="Yes"
             cancelText="No"
           >

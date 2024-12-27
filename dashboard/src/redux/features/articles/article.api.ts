@@ -16,7 +16,15 @@ const articleApi = baseApi.injectEndpoints({
       },
       providesTags: ["articles"],
     }),
+
+    deleteArticle: builder.mutation({
+      query: (args: { _id: string }) => ({
+        url: `/articles/${args._id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["articles"],
+    }),
   }),
 });
 
-export const { useGetAllArticlesQuery } = articleApi;
+export const { useGetAllArticlesQuery, useDeleteArticleMutation } = articleApi;
