@@ -1,17 +1,10 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import {
-  Button,
-  Col,
-  Drawer,
-  Form,
-  Input,
-  Row,
-  Select,
-  Space,
-  message,
-} from "antd";
+import { Button, Col, Drawer, Form, Input, Row, Select, Space } from "antd";
 import RichTextEditor from "../../utils/rich-text-editor";
 import { articleTags } from "../../constants";
+import { useCreateNewArticleMutation } from "../../redux/features/articles/article.api";
+import { toast } from "sonner";
+import { isValidUrl } from "../../utils/url-validation";
 
 interface IAddArticleDrawerProps {
   open: boolean;
@@ -28,23 +21,35 @@ const AddArticleDrawer: React.FC<IAddArticleDrawerProps> = ({
   open,
   setOpen,
 }) => {
+  const [createNewArticle] = useCreateNewArticleMutation();
   const [form] = Form.useForm<IArticleForm>();
   const [richText, setRichText] = useState<string>("");
 
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
+      if (!isValidUrl(values.image)) {
+        toast.error("Invalid thumbnail URL");
+        return;
+      }
       const articleData = {
         ...values,
         description: richText,
       };
-      console.log("Form values:", articleData);
-      // Here you would typically send the data to your backend
-      // For example: await api.createArticle(articleData);
-      message.success("Article submitted successfully!");
-      setOpen(false);
-      form.resetFields();
-      setRichText("");
+
+      try {
+        const response = await createNewArticle(articleData).unwrap();
+        if (response.success) {
+          toast.success("Article successfully published");
+          setRichText("");
+          setOpen(false);
+          form.resetFields();
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+      }
     } catch (error) {
       console.error("Validation failed:", error);
     }

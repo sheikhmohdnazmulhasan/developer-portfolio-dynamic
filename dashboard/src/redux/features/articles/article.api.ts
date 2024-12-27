@@ -17,6 +17,15 @@ const articleApi = baseApi.injectEndpoints({
       providesTags: ["articles"],
     }),
 
+    createNewArticle: builder.mutation({
+      query: (payload: Record<string, unknown>) => ({
+        url: "/articles",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["articles"],
+    }),
+
     deleteArticle: builder.mutation({
       query: (args: { _id: string }) => ({
         url: `/articles/${args._id}`,
@@ -27,4 +36,8 @@ const articleApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllArticlesQuery, useDeleteArticleMutation } = articleApi;
+export const {
+  useGetAllArticlesQuery,
+  useCreateNewArticleMutation,
+  useDeleteArticleMutation,
+} = articleApi;
