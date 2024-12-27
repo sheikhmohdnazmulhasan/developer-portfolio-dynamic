@@ -11,6 +11,7 @@ const { Sider, Content } = Layout;
 
 const DashboardLayout: React.FC = () => {
   const location = useLocation();
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -24,7 +25,7 @@ const DashboardLayout: React.FC = () => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
-        collapsed={true}
+        collapsed={false}
         style={{
           overflow: "auto",
           height: "100vh",
@@ -38,7 +39,9 @@ const DashboardLayout: React.FC = () => {
       >
         <Menu
           theme="light"
-          selectedKeys={[location.pathname]}
+          selectedKeys={[
+            location.pathname === "/" ? "/about" : location.pathname,
+          ]}
           mode="inline"
           items={menuItems.map((item) => ({
             key: item.key,
@@ -47,12 +50,12 @@ const DashboardLayout: React.FC = () => {
           }))}
         />
       </Sider>
-      <Layout style={{ marginLeft: 80 }}>
+      <Layout style={{ marginLeft: 200 }}>
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <div
             style={{
               padding: 24,
-              minHeight: 360,
+              minHeight: "100vh",
               background: colorBgContainer,
             }}
           >

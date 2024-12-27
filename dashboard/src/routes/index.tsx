@@ -3,6 +3,7 @@ import Login from "../pages/auth/login";
 import Protection from "../middleware/protection";
 import AntiLoginProtection from "../middleware/anti-login-protection";
 import DashboardLayout from "../pages/dashboard";
+import About from "../components/dashboard/about";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,16 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </Protection>
     ),
+    children: [
+      {
+        index: true,
+        element: <About />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+    ],
   },
 
   {
