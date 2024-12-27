@@ -14,20 +14,29 @@ interface RichTextEditorProps {
   richText: string;
   setRichText: (value: string) => void;
   defaultRichText?: string;
+  rows?: number;
 }
 
 const RichTextEditor: React.FC<RichTextEditorProps> = ({
   richText,
   setRichText,
   defaultRichText,
+  rows = 5,
 }) => {
   const handleChange = (value: string) => {
     setRichText(value);
   };
 
+  const rowHeight = 24;
+  const editorHeight = rows * rowHeight;
+
   return (
     <ReactQuill
-      className="h-full border-dotted"
+      className="border-dotted"
+      style={{
+        height: `${editorHeight}px`,
+        marginBottom: "1rem",
+      }}
       {...(defaultRichText
         ? { defaultValue: defaultRichText }
         : { value: richText })}

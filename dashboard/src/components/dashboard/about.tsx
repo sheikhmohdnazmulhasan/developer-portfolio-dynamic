@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
+import RichTextEditor from "../../utils/rich-text-editor";
+import { useFetchAboutQuery } from "../../redux/features/about/about.api";
+import Loading from "../loading";
 
 interface ProfileFormValues {
   name: string;
@@ -10,58 +13,64 @@ interface ProfileFormValues {
 
 const About: React.FC = () => {
   const [form] = Form.useForm<ProfileFormValues>();
+  const [richText, setRichText] = useState<string>("");
+
+  const { data, isLoading } = useFetchAboutQuery(undefined);
 
   const onFinish = (values: ProfileFormValues) => {
-    console.log("Form values:", values);
-    // Here you can handle the form submission, e.g., sending data to an API
+    const filteredValues = Object.fromEntries(
+      Object.entries(values).filter(([, value]) => value !== undefined)
+    );
   };
 
   return (
-    <Form
-      form={form}
-      name="profile"
-      onFinish={onFinish}
-      layout="vertical"
-      style={{ maxWidth: 600, margin: "0 auto" }}
-    >
-      <Form.Item
-        name="name"
-        label="Name"
-        rules={[{ required: true, message: "Please input your name!" }]}
+    <>
+      {isLoading && <Loading />}
+      <Form
+        form={form}
+        name="profile"
+        onFinish={onFinish}
+        layout="vertical"
+        style={{ maxWidth: 600, margin: "0 auto" }}
       >
-        <Input defaultValue="Sheikh Mohammad Nazmul H." disabled={true} />
-      </Form.Item>
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[{ message: "Please input your name!" }]}
+        >
+          <Input defaultValue="Sheikh Mohammad Nazmul H." disabled={true} />
+        </Form.Item>
 
-      <Form.Item
-        name="bio"
-        label="Bio"
-        rules={[{ required: true, message: "Please input your bio!" }]}
-      >
-        <Input.TextArea rows={3} />
-      </Form.Item>
+        <Form.Item
+          name="bio"
+          label="Bio"
+          rules={[{ required: true, message: "Please input your bio!" }]}
+        >
+          <Input.TextArea rows={3} />
+        </Form.Item>
 
-      <Form.Item
-        name="designation"
-        label="Designation"
-        rules={[{ required: true, message: "Please input your designation!" }]}
-      >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          name="designation"
+          label="Designation"
+          rules={[
+            { required: true, message: "Please input your designation!" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <RichTextEditor
+          richText={richText}
+          setRichText={setRichText}
+          rows={10}
+        />
 
-      <Form.Item
-        name="description"
-        label="Description"
-        rules={[{ required: true, message: "Please input your description!" }]}
-      >
-        <Input.TextArea rows={4} />
-      </Form.Item>
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item className="pt-10">
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </>
   );
 };
 
