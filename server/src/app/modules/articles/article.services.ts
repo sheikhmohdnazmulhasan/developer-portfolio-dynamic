@@ -7,7 +7,7 @@ import isValidValidObjectId from "../../../utils/check-valid-objectId";
 import { isValidObjectId } from "mongoose";
 
 async function retrieveAllArticlesFromDb(): Promise<IServiceResponse> {
-  const result = await Article.find();
+  const result = await Article.find().sort({ createdAt: -1 });
 
   return {
     status: StatusCodes.OK,
