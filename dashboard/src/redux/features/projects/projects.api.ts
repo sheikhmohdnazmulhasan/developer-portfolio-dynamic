@@ -1,4 +1,5 @@
 import { TApiResponse } from "../../../interfaces/api-response";
+import { IProject } from "../../../interfaces/api.res.projects.type";
 import { baseApi } from "../../api/base-api";
 
 const projectApi = baseApi.injectEndpoints({
@@ -26,6 +27,15 @@ const projectApi = baseApi.injectEndpoints({
       invalidatesTags: ["projects"],
     }),
 
+    updateProject: builder.mutation({
+      query: (payload: { _id: string; data: IProject }) => ({
+        url: `/projects/${payload._id}`,
+        method: "PATCH",
+        body: payload.data,
+      }),
+      invalidatesTags: ["projects"],
+    }),
+
     deleteProject: builder.mutation({
       query: (args: { _id: string }) => ({
         url: `/projects/${args._id}`,
@@ -40,4 +50,5 @@ export const {
   useFetchAllProjectsQuery,
   useDeleteProjectMutation,
   useCreateNewProjectMutation,
+  useUpdateProjectMutation,
 } = projectApi;

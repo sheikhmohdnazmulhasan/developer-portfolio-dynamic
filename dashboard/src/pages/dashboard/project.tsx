@@ -13,6 +13,7 @@ import {
   useFetchAllProjectsQuery,
 } from "../../redux/features/projects/projects.api";
 import AddProjectDrawer from "../../components/dashboard/add-new-project";
+import EditProjectDrawer from "../../components/dashboard/edit-project";
 
 export interface BlogPost {
   key: number;
@@ -139,9 +140,9 @@ export default function ProjectManagement() {
         open={openAddNewProjectDrawer}
         setOpen={setOpenAddNewProjectDrawer}
       />
-      {/* {clickedForEdit && (
-        <EditArticleDrawer setData={setClickedForEdit} data={clickedForEdit} />
-      )} */}
+      {clickedForEdit && (
+        <EditProjectDrawer setData={setClickedForEdit} data={clickedForEdit} />
+      )}
     </>
   );
 }

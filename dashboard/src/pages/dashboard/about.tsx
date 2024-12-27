@@ -28,6 +28,7 @@ const About: React.FC = () => {
         bio: about?.bio,
         designation: about?.designation,
       });
+      setRichText(about.description);
     }
   }, [about, form]);
 
@@ -94,12 +95,14 @@ const About: React.FC = () => {
           <Input />
         </Form.Item>
 
-        <RichTextEditor
-          richText={richText}
-          setRichText={setRichText}
-          defaultRichText={about?.description}
-          rows={10}
-        />
+        {!!about && (
+          <RichTextEditor
+            richText={richText}
+            setRichText={setRichText}
+            defaultRichText={about?.description || ""}
+            rows={10}
+          />
+        )}
 
         <Form.Item className="pt-10">
           <Button type="primary" htmlType="submit">
