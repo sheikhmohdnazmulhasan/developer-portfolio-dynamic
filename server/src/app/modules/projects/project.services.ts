@@ -6,7 +6,7 @@ import Project from "./project.model";
 import { isValidObjectId } from "mongoose";
 
 async function retrieveAllProjectsFromDb(): Promise<IServiceResponse> {
-  const result = await Project.find();
+  const result = await Project.find().sort({ createdAt: -1 });
 
   return {
     status: StatusCodes.OK,
