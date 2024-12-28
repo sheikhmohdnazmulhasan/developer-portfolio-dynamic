@@ -1,20 +1,21 @@
 "use client";
 import React from "react";
 import { Heading } from "./Heading";
-import { Product } from "@/types/products";
-import { products } from "@/constants/products";
 import Link from "next/link";
 import Image from "next/image";
-import { Paragraph } from "./Paragraph";
 import { motion } from "framer-motion";
+import useProjects from "@/hooks/lib/get-projects";
+import RenderRichText from "@/app/utils/render-richt-text";
 
 export const Products = () => {
+  const { data: projects } = useProjects();
+
   return (
     <div>
       <div className="grid grid-cols-1  gap-10">
-        {products.map((product: Product, idx: number) => (
+        {projects?.map((product, idx: number) => (
           <motion.div
-            key={product.href}
+            key={product._id}
             initial={{
               opacity: 0,
               x: -50,
@@ -26,16 +27,16 @@ export const Products = () => {
             transition={{ duration: 0.2, delay: idx * 0.1 }}
           >
             <Link
-              href={product.slug ? `/projects/${product.slug}` : product.href}
-              key={product.href}
+              href={`/projects/${product._id}`}
+              key={product._id}
               className="group flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 hover:bg-gray-50 rounded-2xl transition duration-200 pt-4"
             >
               <Image
-                src={product.thumbnail}
+                src={product.image}
                 alt="thumbnail"
-                height="200"
+                height="159"
                 width="200"
-                className="rounded-md"
+                className="rounded-md object-cover"
               />
               <div className="flex flex-col justify-between">
                 <div>
@@ -45,12 +46,13 @@ export const Products = () => {
                   >
                     {product.title}
                   </Heading>
-                  <Paragraph className="text-sm md:text-sm lg:text-sm mt-2 max-w-xl">
+                  {/* <Paragraph className="text-sm md:text-sm lg:text-sm mt-2 max-w-xl">
                     {product.description}
-                  </Paragraph>
+                  </Paragraph> */}
+                  <RenderRichText text={product.description.slice(0, 250)} />
                 </div>
                 <div className="flex space-x-2 md:mb-1 mt-2 md:mt-0">
-                  {product.stack?.map((stack: string) => (
+                  {product.technologies?.map((stack: string) => (
                     <span
                       key={stack}
                       className="text-xs  md:text-xs lg:text-xs bg-gray-50 px-2 py-1 rounded-sm text-secondary"
