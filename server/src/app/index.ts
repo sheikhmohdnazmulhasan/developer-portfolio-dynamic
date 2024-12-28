@@ -19,7 +19,11 @@ const app: Application = express();
 // Middlewares
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://nazmuldev-dashboard.web.app"],
+    origin: [
+      "http://localhost:5173",
+      "https://nazmuldev-dashboard.web.app",
+      "http://localhost:3000",
+    ],
     credentials: true,
   })
 );
