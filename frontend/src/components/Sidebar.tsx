@@ -32,8 +32,11 @@ export const Sidebar = () => {
               <SidebarHeader />
               <Navigation setOpen={setOpen} />
             </div>
-            <div onClick={() => isMobile() && setOpen(false)}>
-              <Badge href="/resume" text="Read Resume" />
+            <div>
+              <Badge
+                href="https://docs.google.com/document/d/1FQW5KbLZ-juqlAWc0MDccIMDPg9OhUtUZ3dKFCsL0yU/edit?usp=sharing"
+                text="Read Resume"
+              />
             </div>
           </motion.div>
         )}
@@ -80,7 +83,7 @@ export const Navigation = ({
       ))}
 
       <Heading as="p" className="text-sm md:text-sm lg:text-sm pt-10 px-2">
-        Socials
+        Links
       </Heading>
       {socials.map((link: Navlink) => (
         <Link

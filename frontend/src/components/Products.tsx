@@ -37,9 +37,9 @@ export const Products = () => {
               <Image
                 src={product.image}
                 alt="thumbnail"
-                height="159"
-                width="200"
-                className="rounded-md object-cover"
+                height={159}
+                width={200}
+                className="rounded-md w-full md:w-[200px] md:object-cover"
               />
               <div className="flex flex-col justify-between">
                 <div>

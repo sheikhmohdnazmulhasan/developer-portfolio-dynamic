@@ -65,10 +65,9 @@ export const Blogs = () => {
               <Image
                 src={blog.image}
                 alt="thumbnail"
-                height="200"
-                width="200"
-                objectFit="cover"
-                className="rounded-md object-cover h-40 w-60"
+                height={159}
+                width={200}
+                className="rounded-md w-full md:w-[200px] md:object-cover"
               />
               <div className="flex flex-col col-span-3">
                 <Heading className="text-lg md:text-lg lg:text-lg">
