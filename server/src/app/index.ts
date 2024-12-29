@@ -23,6 +23,7 @@ app.use(
       "http://localhost:5173",
       "https://nazmuldev-dashboard.web.app",
       "http://localhost:3000",
+      "https://nazmuldev-seven.vercel.app",
     ],
     credentials: true,
   })
