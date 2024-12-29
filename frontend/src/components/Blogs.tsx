@@ -1,19 +1,23 @@
 "use client";
-import { Blog } from "@/types/blog";
 import Image from "next/image";
 import React, { useState } from "react";
 import { Heading } from "./Heading";
 import { Paragraph } from "./Paragraph";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import useArticles from "@/hooks/lib/get-articles";
+import RenderRichText from "@/app/utils/render-richt-text";
 
-export const Blogs = ({ blogs }: { blogs: Blog[] }) => {
+export const Blogs = () => {
   const [hovered, setHovered] = useState<string | null>(null);
+
+  const { data: blogs } = useArticles();
+
   return (
     <div className="max-w-5xl mx-auto my-10">
-      {blogs.map((blog, index) => (
+      {blogs?.map((blog, index) => (
         <motion.div
-          key={blog.slug}
+          key={blog._id}
           initial={{
             opacity: 0,
             x: -50,
@@ -26,13 +30,13 @@ export const Blogs = ({ blogs }: { blogs: Blog[] }) => {
         >
           <Link
             key={`blog-${blog.title}`}
-            href={`/blog/${blog.slug}`}
+            href={`/blog/${blog._id}`}
             className="relative my-10 block"
-            onMouseEnter={() => setHovered(blog.slug)}
+            onMouseEnter={() => setHovered(blog._id)}
             onMouseLeave={() => setHovered(null)}
           >
             <AnimatePresence mode="wait">
-              {hovered === blog.slug && (
+              {hovered === blog._id && (
                 <motion.div
                   initial={{
                     opacity: 0,
@@ -68,12 +72,12 @@ export const Blogs = ({ blogs }: { blogs: Blog[] }) => {
                   {blog.title}
                 </Heading>
                 <Paragraph className="text-sm md:text-sm lg:text-sm mt-2">
-                  {blog.description}
+                  <RenderRichText text={blog.description.slice(0, 250)} />
                 </Paragraph>
                 <div className="flex space-x-2 flex-wrap mt-4">
                   {blog.tags?.map((tag, index) => (
                     <span
-                      key={`tag-${blog.slug}`}
+                      key={index}
                       className="text-xs px-1 py-0.5 text-secondary border border-neutral-200 bg-white rounded-md"
                     >
                       {tag}

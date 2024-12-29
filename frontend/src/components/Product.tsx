@@ -25,7 +25,7 @@ export const SingleProduct = ({ product }: { product: IProject }) => {
         className="relative"
       >
         <Image
-          src={product.image}
+          src={product?.image}
           alt="thumbnail"
           height="1000"
           width="1000"
