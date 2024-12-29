@@ -1,35 +1,9 @@
+"use client";
+
 import { Container } from "@/components/Container";
-import { Heading } from "@/components/Heading";
-import { Highlight } from "@/components/Highlight";
-import { Paragraph } from "@/components/Paragraph";
 import { SingleProduct } from "@/components/Product";
-import { Products } from "@/components/Products";
 import { products } from "@/constants/products";
-import { Product } from "@/types/products";
-import { Metadata } from "next";
-import Image from "next/image";
-import { redirect } from "next/navigation";
-
-type Props = {
-  params: { slug: string };
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const slug = params.slug;
-  const product = products.find((p) => p.slug === slug) as Product | undefined;
-  if (product) {
-    return {
-      title: product.title,
-      description: product.description,
-    };
-  } else {
-    return {
-      title: "Projects | John Doe",
-      description:
-        "John Doe is a developer, writer and speaker. He is a digital nomad and travels around the world while working remotely.",
-    };
-  }
-}
+import useProject from "@/hooks/lib/get-project";
 
 export default function SingleProjectPage({
   params,
@@ -37,14 +11,16 @@ export default function SingleProjectPage({
   params: { slug: string };
 }) {
   const slug = params.slug;
-  const product = products.find((p) => p.slug === slug);
 
-  if (!product) {
-    redirect("/projects");
-  }
+  const { data: project, isLoading } = useProject({ _id: slug });
+
+  console.log(project);
+
+  if (isLoading) return <div className="">Loading ...</div>;
+
   return (
     <Container>
-      <SingleProduct product={product} />
+      <SingleProduct product={project} />
     </Container>
   );
 }
