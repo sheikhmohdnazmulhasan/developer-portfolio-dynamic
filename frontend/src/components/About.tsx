@@ -6,7 +6,7 @@ import RenderRichText from "@/app/utils/render-richt-text";
 export default function About() {
   const { data, error, isLoading } = useAbout();
 
-  console.log({ data, error, isLoading });
+  if (isLoading) return <div className="mt-4">Loading ...</div>;
 
   return (
     <div className="mt-5">
