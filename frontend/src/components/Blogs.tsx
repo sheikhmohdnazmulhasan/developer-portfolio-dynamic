@@ -7,11 +7,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import useArticles from "@/hooks/lib/get-articles";
 import RenderRichText from "@/app/utils/render-richt-text";
+import Loading from "./Loading";
 
 export const Blogs = () => {
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const { data: blogs } = useArticles();
+  const { data: blogs, isLoading } = useArticles();
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="max-w-5xl mx-auto my-10">

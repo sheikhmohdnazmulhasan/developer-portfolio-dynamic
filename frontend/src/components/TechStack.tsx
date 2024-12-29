@@ -6,48 +6,62 @@ import { twMerge } from "tailwind-merge";
 export const TechStack = () => {
   const stack = [
     {
+      title: "node",
+      src: "/images/logos/node.png",
+      className: "h-7 w-11",
+    },
+    {
+      title: "express",
+      src: "/images/logos/ex.png",
+      className: "h-7 w-11",
+    },
+    {
+      title: "psql",
+      src: "/images/logos/psql.png",
+      className: "h-7 w-11",
+    },
+    {
+      title: "mongo",
+      src: "/images/logos/mongodb.png",
+      className: "h-7 w-11",
+    },
+    {
+      title: "prisma",
+      src: "/images/logos/prisma.png",
+      className: "h-7 w-11",
+    },
+    {
+      title: "TypeScript",
+      src: "/images/logos/ts.png",
+      className: "h-7 w-11",
+    },
+    {
       title: "Next.js",
       src: "/images/logos/next.png",
-
-      className: "h-10 w-14",
+      className: "h-7 w-11",
     },
     {
-      title: "AWS",
-      src: "/images/logos/aws.webp",
-
-      className: "h-10 w-10",
+      title: "React",
+      src: "/images/logos/react.png",
+      className: "h-7 w-11",
     },
     {
-      title: "Figma",
-      src: "/images/logos/figma.png",
-
-      className: "h-10 w-8",
+      title: "redux",
+      src: "/images/logos/redux.png",
+      className: "h-7 w-11",
     },
     {
-      title: "Framer Motion",
-      src: "/images/logos/framer.webp",
-
-      className: "h-10 w-10",
-    },
-    {
-      title: "Node",
-      src: "/images/logos/node.png",
-
-      className: "h-10 w-12",
-    },
-    {
-      title: "Tailwind",
+      title: "tailwind",
       src: "/images/logos/tailwind.png",
-
-      className: "h-10 w-24",
+      className: "h-7 w-11",
     },
     {
-      title: "Vercel",
-      src: "/images/logos/vercel.png",
-
-      className: "h-10 w-24",
+      title: "antd",
+      src: "/images/logos/antd.png",
+      className: "h-7 w-11",
     },
   ];
+
   return (
     <div>
       <Heading
@@ -61,8 +75,8 @@ export const TechStack = () => {
           <Image
             src={item.src}
             key={item.src}
-            width={`200`}
-            height={`200`}
+            width={`100`}
+            height={`100`}
             alt={item.title}
             className={twMerge("object-contain mr-4 mb-4", item.className)}
           />

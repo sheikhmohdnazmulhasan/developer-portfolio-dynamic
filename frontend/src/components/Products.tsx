@@ -6,9 +6,12 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import useProjects from "@/hooks/lib/get-projects";
 import RenderRichText from "@/app/utils/render-richt-text";
+import Loading from "./Loading";
 
 export const Products = () => {
-  const { data: projects } = useProjects();
+  const { data: projects, isLoading } = useProjects();
+
+  if (isLoading) return <Loading />;
 
   return (
     <div>
